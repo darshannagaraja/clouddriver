@@ -175,7 +175,8 @@ public class EcsServerClusterProvider implements ClusterProvider<EcsServerCluste
         boolean found = false;
 
         for (EcsServerCluster cluster : clusterMap.get(applicationName)) {
-          if (cluster.getName().equals(escClusterName)) {
+          if (cluster.getName().equals(escClusterName)
+              && cluster.getAccountName().equals(credentials.getName())) {
             cluster.getServerGroups().add(ecsServerGroup);
             found = true;
             break;
@@ -300,6 +301,9 @@ public class EcsServerClusterProvider implements ClusterProvider<EcsServerCluste
       List<String> eniSecurityGroups) {
     ServerGroup.InstanceCounts instanceCounts = buildInstanceCount(instances);
     TaskDefinition ecsTaskDefinition = buildTaskDefinition(taskDefinition);
+    EcsServerGroup.Image image = new EcsServerGroup.Image();
+    image.setImageId(ecsTaskDefinition.getContainerImage());
+    image.setName(ecsTaskDefinition.getContainerImage());
 
     String scalableTargetId = "service/" + ecsCluster + "/" + serviceName;
     String scalableTargetKey = Keys.getScalableTargetKey(account, region, scalableTargetId);
@@ -359,6 +363,7 @@ public class EcsServerClusterProvider implements ClusterProvider<EcsServerCluste
             .setRegion(region)
             .setInstances(instances)
             .setCapacity(capacity)
+            .setImage(image)
             .setInstanceCounts(instanceCounts)
             .setCreatedTime(creationTime)
             .setEcsCluster(ecsCluster)

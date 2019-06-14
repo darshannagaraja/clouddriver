@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Schibsted Media Group.
+ * Copyright 2019 Netflix, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.netflix.spinnaker.clouddriver.aws.model;
 
-import java.util.Date;
-import java.util.Map;
+package com.netflix.spinnaker.clouddriver.aws.security.sdkclient;
 
-/** A representation of a CloudFormation stack */
-public interface CloudFormationStack {
-
-  String getStackId();
-
-  Map<String, String> getTags();
-
-  Map<String, String> getOutputs();
-
-  String getStackName();
-
-  String getRegion();
-
-  String getAccountName();
-
-  String getAccountId();
-
-  String getStackStatus();
-
-  String getStackStatusReason();
-
-  Date getCreationTime();
+class EddaException extends Exception {
+  EddaException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }
